@@ -1,0 +1,25 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: taskflow-alerts
+  namespace: monitoring
+spec:
+  groups:
+    - name: taskflow.rules
+      rules:
+        - alert: TaskFlowHighErrorRate
+          expr: sum(rate(http_requests_total{status="500"}[5m])) > 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: TaskFlow returns server errors
+            description: HTTP 500 responses detected in the last 5 minutes.
+        - alert: TaskFlowPodDown
+          expr: kube_deployment_status_replicas_available{deployment=~".*taskflow.*"} < 1
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: TaskFlow has no available replicas
+            description: Deployment has fewer than 1 available pod.

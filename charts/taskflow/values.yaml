@@ -1,0 +1,30 @@
+replicaCount: 2
+
+image:
+  repository: docker.io/example/taskflow
+  pullPolicy: IfNotPresent
+  tag: sha-abcdef1
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8000
+
+ingress:
+  enabled: false
+  className: nginx
+  host: taskflow.local
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 250m
+    memory: 256Mi
+
+secrets:
+  appEnv: production
+
+alerts:
+  webhookUrl: ''

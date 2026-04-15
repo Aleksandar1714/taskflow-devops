@@ -1,0 +1,20 @@
+flowchart LR
+    Dev[Developer] -->|git push / PR| GH[GitHub Repository]
+    GH -->|pre-commit locally| PC[Pre-commit hooks]
+    GH -->|CI: lint + test + build + push| GHA[GitHub Actions]
+    GHA -->|Docker image| DH[Docker Hub]
+    GHA -->|update Helm values| Repo[(GitOps repo path)]
+    Repo --> ARGO[ArgoCD]
+    ARGO --> K8S[Kubernetes / EKS]
+    K8S --> APP[TaskFlow App Pods]
+    K8S --> PROM[Prometheus]
+    K8S --> LOKI[Loki]
+    PROM --> GRAF[Grafana]
+    LOKI --> GRAF
+    PROM --> ALERT[Alertmanager]
+    ALERT -->|webhook| CHAT[Slack / Discord / Teams]
+    APP -->|metrics /metrics| PROM
+    APP -->|stdout logs| LOKI
+    TF[Terraform] -->|provisions| K8S
+    SECRETS[GitHub Secrets / K8s Secrets / AWS Secrets Manager] --> GHA
+    SECRETS --> K8S

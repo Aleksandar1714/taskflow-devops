@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.pyc
+.env
+coverage.xml
+htmlcov/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform/
