@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: docker.io/example/taskflow
   pullPolicy: IfNotPresent
-  tag: sha-abcdef1
+  tag: sha-c8a890a
 
 service:
   type: ClusterIP
